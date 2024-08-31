@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Gujarat Innovative Hub",
+  title: "Innovative Hub",
   description: "Gujarat RISE(Research, IPR, Start-ups, Entreprenurship)",
 };
 
