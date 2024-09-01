@@ -1,5 +1,4 @@
 import prisma from "@/prisma/client";
-import { NextApiRequest } from "next";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -14,7 +13,7 @@ export async function PUT(req: NextRequest, res: NextResponse) {
   return NextResponse.json("Image Updates", { status: 201 });
 }
 
-export async function GET(req: NextApiRequest, res: NextResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   const session = await getServerSession();
   const user = await prisma.user.findUnique({
     where: { email: session?.user.email! },

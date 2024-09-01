@@ -17,7 +17,7 @@ const Signin = async () => {
         Innovation Hub
       </Heading>
       <Heading align="center" weight="light" size="4">
-        Unifying Gujarat's innovation management.
+        Unifying Gujarat&apos;s innovation management.
       </Heading>
 
       <div className="mx-5 lg:mx-80 min-h-[40rem] md:min-h-[34rem] flex flex-col justify-center mt-6">
