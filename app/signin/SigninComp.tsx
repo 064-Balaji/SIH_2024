@@ -1,29 +1,53 @@
+"use client";
+
 import { Button, Flex, TextField } from "@radix-ui/themes";
-import React from "react";
-import { FaKey } from "react-icons/fa";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
 import { GoSignIn } from "react-icons/go";
+import { IoKeyOutline } from "react-icons/io5";
 import { MdOutlineAlternateEmail } from "react-icons/md";
-import "server-only";
 
 const SigninComp = () => {
+  const [mail, setMail] = useState("");
+  const [pass, setPass] = useState("");
+
+  const handleSubmit = async () => {
+    const result = await signIn("credentials", {
+      email: mail,
+      password: pass,
+    });
+
+    if (result?.error) {
+      console.error("Sign-in failed:", result.error);
+    } else {
+      console.log("Signed in successfully!");
+    }
+  };
+
   return (
     <Flex direction="column" gap="2" className="my-8">
       <TextField.Root
-        radius="medium"
         placeholder="sample@gmail.com"
         type="email"
+        value={mail}
+        onChange={(v) => setMail(v.target.value)}
       >
         <TextField.Slot>
           <MdOutlineAlternateEmail size={18} />
         </TextField.Slot>
       </TextField.Root>
-      <TextField.Root radius="large" placeholder="*******" type="password">
+      <TextField.Root
+        placeholder="*******"
+        type="password"
+        value={pass}
+        onChange={(v) => setPass(v.target.value)}
+      >
         <TextField.Slot>
-          <FaKey size={18} />
+          <IoKeyOutline size={18} />
         </TextField.Slot>
       </TextField.Root>
-      <Button variant="soft">
-        Signin <GoSignIn />
+      <Button variant="soft" onClick={() => handleSubmit()}>
+        Signin <GoSignIn size={18} />
       </Button>
     </Flex>
   );

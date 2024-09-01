@@ -1,35 +1,103 @@
-import { Button, Flex, TextField } from "@radix-ui/themes";
-import { FaKey, FaRegUser } from "react-icons/fa";
-import {
-  MdDriveFileRenameOutline,
-  MdOutlineAlternateEmail,
-} from "react-icons/md";
-import "server-only";
+"use client";
+
+import { Button, Flex, Select, TextField } from "@radix-ui/themes";
+import axios from "axios";
+import { useState } from "react";
+import { FaRegUser } from "react-icons/fa";
+import { GoOrganization } from "react-icons/go";
+import { HiLogin } from "react-icons/hi";
+import { IoKeyOutline } from "react-icons/io5";
+import { MdOutlineAlternateEmail } from "react-icons/md";
 
 const SignupComp = () => {
+  const [name, setName] = useState("");
+  const [mail, setMail] = useState("");
+  const [pass, setPass] = useState("");
+  const [userType, selectUser] = useState("INVESTOR");
+  const [cmpName, setCmpName] = useState("");
+  const [cmpType, setCmpType] = useState("");
+
+  const handleSubmit = async () => {
+    const response = await axios
+      .post("api/auth/signup", {
+        name,
+        mail,
+        pass,
+        userType,
+        cmpName,
+        cmpType,
+      })
+      .then(() => console.log("Success"))
+      .catch(() => console.log("error"));
+  };
+
   return (
-    <Flex direction="column" gap="2" className="my-8">
-      <TextField.Root radius="medium" placeholder="John Doe" type="text">
+    <Flex direction="column" gap="3" className="my-8">
+      <TextField.Root
+        placeholder="John Doe"
+        type="text"
+        onChange={(v) => setName(v.target.value)}
+        value={name}
+      >
         <TextField.Slot>
-          <MdDriveFileRenameOutline size={18} />
+          <FaRegUser size={18} />
         </TextField.Slot>
       </TextField.Root>
       <TextField.Root
-        radius="medium"
         placeholder="sample@gmail.com"
         type="email"
+        value={mail}
+        onChange={(v) => setMail(v.target.value)}
       >
         <TextField.Slot>
           <MdOutlineAlternateEmail size={18} />
         </TextField.Slot>
       </TextField.Root>
-      <TextField.Root radius="large" placeholder="*******" type="password">
+      <TextField.Root
+        placeholder="*******"
+        type="password"
+        value={pass}
+        onChange={(v) => setPass(v.target.value)}
+      >
         <TextField.Slot>
-          <FaKey size={16} />
+          <IoKeyOutline size={18} />
         </TextField.Slot>
       </TextField.Root>
-      <Button variant="soft">
-        Signup <FaRegUser />
+      <Select.Root
+        defaultValue="investor"
+        onValueChange={(v) => selectUser(v)}
+        value={userType}
+      >
+        <Select.Trigger />
+        <Select.Content>
+          <Select.Item value="INVESTOR">Investor</Select.Item>
+          <Select.Item value="ENTREPRENEUR">Entrepreneur</Select.Item>
+          <Select.Item value="INNOVATOR">Innovator</Select.Item>
+        </Select.Content>
+      </Select.Root>
+      {userType == "entrepreneur" && (
+        <>
+          <TextField.Root
+            placeholder="Company Name"
+            type="text"
+            value={cmpName}
+            onChange={(v) => setCmpName(v.target.value)}
+          >
+            <TextField.Slot>
+              <GoOrganization size={18} />
+            </TextField.Slot>
+          </TextField.Root>
+          <Select.Root onValueChange={(v) => setCmpType(v)} value={cmpType}>
+            <Select.Trigger placeholder="Type of company" />
+            <Select.Content>
+              <Select.Item value="software">Software</Select.Item>
+              <Select.Item value="hardware">Hardware</Select.Item>
+            </Select.Content>
+          </Select.Root>
+        </>
+      )}
+      <Button variant="soft" onClick={() => handleSubmit()}>
+        Signup <HiLogin size={18} />
       </Button>
     </Flex>
   );
