@@ -1,8 +1,10 @@
+import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import "@radix-ui/themes/styles.css";
 import ThemeProvider from "./_components/ThemeProvider";
+import NavBar from "./_components/NavBar";
+import "./globals.css";
+import Session from "./api/auth/[...nextauth]/Session";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,9 +23,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <Session>
+          <ThemeProvider>
+            <NavBar />
+            {children}
+          </ThemeProvider>
+        </Session>
       </body>
     </html>
   );

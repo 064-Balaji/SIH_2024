@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Create company if provided
-    if (cmpName) {
+    if (cmpName && cmpType) {
       await prisma.company.create({
         data: {
           name: cmpName,

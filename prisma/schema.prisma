@@ -15,6 +15,7 @@ model User {
   userType UserType
   company  Company? // Nullable, only required for entrepreneurs
   session  Session?
+  image    String?
 }
 
 model Company {
@@ -23,6 +24,7 @@ model Company {
   type   CompanyType
   user   User        @relation(fields: [userId], references: [id])
   userId String      @unique @db.ObjectId
+  image  String?
 }
 
 enum UserType {

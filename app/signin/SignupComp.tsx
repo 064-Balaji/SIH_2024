@@ -75,7 +75,7 @@ const SignupComp = () => {
           <Select.Item value="INNOVATOR">Innovator</Select.Item>
         </Select.Content>
       </Select.Root>
-      {userType == "entrepreneur" && (
+      {userType == "ENTREPRENEUR" && (
         <>
           <TextField.Root
             placeholder="Company Name"
@@ -90,8 +90,8 @@ const SignupComp = () => {
           <Select.Root onValueChange={(v) => setCmpType(v)} value={cmpType}>
             <Select.Trigger placeholder="Type of company" />
             <Select.Content>
-              <Select.Item value="software">Software</Select.Item>
-              <Select.Item value="hardware">Hardware</Select.Item>
+              <Select.Item value="SOFTWARE">Software</Select.Item>
+              <Select.Item value="HARDWARE">Hardware</Select.Item>
             </Select.Content>
           </Select.Root>
         </>
