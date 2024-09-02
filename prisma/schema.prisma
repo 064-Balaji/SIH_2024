@@ -19,12 +19,21 @@ model User {
 }
 
 model Company {
-  id     String      @id @default(auto()) @map("_id") @db.ObjectId
-  name   String
-  type   CompanyType
-  user   User        @relation(fields: [userId], references: [id])
-  userId String      @unique @db.ObjectId
-  image  String?
+  id       String      @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  type     CompanyType
+  user     User        @relation(fields: [userId], references: [id])
+  userId   String      @unique @db.ObjectId
+  image    String?
+  startups Startup[] // A company can have multiple startups
+}
+
+model Startup {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  companyId   String  @db.ObjectId
+  company     Company @relation(fields: [companyId], references: [id])
 }
 
 enum UserType {

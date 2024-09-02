@@ -8,8 +8,8 @@ import React from "react";
 const ImageComp = ({ user }: { user: any }) => {
   const email = user.email;
   return (
-    <Flex justify="center" className="w-[100px]h-full">
-      <div className="relative">
+    <Flex justify="center">
+      <div className="relative w-full h-full flex justify-center items-center">
         <CldImage
           src={user.image ? user.image : ""}
           width="200"
@@ -17,20 +17,16 @@ const ImageComp = ({ user }: { user: any }) => {
           alt="Image wasn't available"
           radius="300"
           crop={{ type: "auto" }}
-          className="rounded-full object-cover"
+          className="w-full h-full rounded-full object-cover shadow-md"
         />
-        <div
-          className={
-            "absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 transition-opacity duration-300 hover:opacity-100"
-          }
-        >
+        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 transition-opacity duration-300 hover:opacity-100">
           <CldUploadButton
             uploadPreset="klhusdyw"
             onSuccess={async (res) => {
               const url = res.info;
               await axios.put("/api/user", { email, url });
             }}
-            className="bg-white text-black py-2 px-4 rounded-lg"
+            className="bg-white text-black py-2 px-4 rounded-lg shadow-lg"
           >
             Upload Image
           </CldUploadButton>

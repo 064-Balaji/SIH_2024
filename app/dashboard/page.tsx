@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import ImageComp from "./ImageComp";
 import UserFieldsUpdate from "./UserFieldsUpdate";
 import ListStartups from "./ListStartups";
+import AddStartup from "./AddStartup";
 
 const Dashboard = async () => {
   const session = await getServerSession();
@@ -21,14 +22,20 @@ const Dashboard = async () => {
     where: { userId: user?.id },
   });
 
-  if (user?.userType == "ENTREPRENEUR") {
+  const startup = await prisma.startup.findMany({
+    where: {
+      companyId: company?.id!,
+    },
+  });
+
+  if (user?.userType === "ENTREPRENEUR") {
     return (
-      <Flex gap={"3"}>
+      <Flex direction="row" gap="6" className="p-6">
+        {/* Profile and User Information */}
         <Flex
-          className="mx-4 w-3/12 my-32"
           direction="column"
-          gap="4"
-          justify="center"
+          className="w-1/4 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md"
+          gap="6"
         >
           <ImageComp user={user} />
           <UserFieldsUpdate
@@ -37,8 +44,15 @@ const Dashboard = async () => {
             pass={user.password}
           />
         </Flex>
-        <Flex direction="column">
-          <ListStartups />
+
+        {/* Main Content */}
+        <Flex
+          direction="column"
+          className="w-3/4 p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md"
+          gap="6"
+        >
+          <ListStartups startup={startup} />
+          <AddStartup cmpid={company?.id!} />
         </Flex>
       </Flex>
     );
