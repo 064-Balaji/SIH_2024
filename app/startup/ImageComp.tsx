@@ -5,13 +5,12 @@ import axios from "axios";
 import { CldImage, CldUploadButton } from "next-cloudinary";
 import React from "react";
 
-const ImageComp = ({ user }: { user: any }) => {
-  const email = user.email;
+const ImageComp = ({ url, id }: { url: string; id: string }) => {
   return (
     <Flex justify="center">
       <div className="relative flex justify-center items-center">
         <CldImage
-          src={user.image ? user.image : ""}
+          src={url ? url : ""}
           width="200"
           height="200"
           alt="Image wasn't available"
@@ -24,7 +23,7 @@ const ImageComp = ({ user }: { user: any }) => {
             uploadPreset="klhusdyw"
             onSuccess={async (res) => {
               const url = res.info;
-              await axios.put("/api/user", { email, url });
+              await axios.put("/api/user/startup", { id, url });
             }}
             className="bg-white text-black py-2 px-4 rounded-lg shadow-lg"
           >

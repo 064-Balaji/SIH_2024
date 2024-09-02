@@ -2,10 +2,10 @@
 
 import { Button, Flex, Select, TextField } from "@radix-ui/themes";
 import axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { GoOrganization } from "react-icons/go";
-import { HiLogin } from "react-icons/hi";
+import { HiEye, HiEyeOff, HiLogin } from "react-icons/hi";
 import { IoKeyOutline } from "react-icons/io5";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 
@@ -13,91 +13,101 @@ const SignupComp = () => {
   const [name, setName] = useState("");
   const [mail, setMail] = useState("");
   const [pass, setPass] = useState("");
-  const [userType, selectUser] = useState("INVESTOR");
-  const [cmpName, setCmpName] = useState("");
-  const [cmpType, setCmpType] = useState("");
+  const [userType, setUserType] = useState("INVESTOR");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async () => {
-    const response = await axios
-      .post("api/auth/signup", {
+    try {
+      await axios.post("api/auth/signup", {
         name,
         mail,
         pass,
         userType,
-        cmpName,
-        cmpType,
-      })
-      .then(() => console.log("Success"))
-      .catch(() => console.log("error"));
+      });
+      console.log("Success");
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
-    <Flex direction="column" gap="3" className="my-8">
+    <Flex
+      direction="column"
+      gap="4"
+      className="max-w-2xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg"
+    >
       <TextField.Root
         placeholder="John Doe"
         type="text"
-        onChange={(v) => setName(v.target.value)}
+        onChange={(e) => setName(e.target.value)}
         value={name}
+        className="flex items-center p-2 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md"
       >
         <TextField.Slot>
-          <FaRegUser size={18} />
+          <FaRegUser size={18} className="text-gray-500 dark:text-gray-300" />
         </TextField.Slot>
       </TextField.Root>
+
       <TextField.Root
         placeholder="sample@gmail.com"
         type="email"
         value={mail}
-        onChange={(v) => setMail(v.target.value)}
+        onChange={(e) => setMail(e.target.value)}
+        className="flex items-center p-2 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md"
       >
         <TextField.Slot>
-          <MdOutlineAlternateEmail size={18} />
+          <MdOutlineAlternateEmail
+            size={18}
+            className="text-gray-500 dark:text-gray-300"
+          />
         </TextField.Slot>
       </TextField.Root>
-      <TextField.Root
-        placeholder="*******"
-        type="password"
-        value={pass}
-        onChange={(v) => setPass(v.target.value)}
-      >
-        <TextField.Slot>
-          <IoKeyOutline size={18} />
-        </TextField.Slot>
-      </TextField.Root>
+
+      <div className="relative">
+        <TextField.Root
+          value={pass}
+          onChange={(e) => setPass(e.target.value)}
+          placeholder="Password"
+          type={showPassword ? "text" : "password"}
+          className="flex items-center p-2 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md"
+        >
+          <TextField.Slot>
+            <IoKeyOutline
+              size={18}
+              className="text-gray-500 dark:text-gray-300"
+            />
+          </TextField.Slot>
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 dark:text-gray-300"
+          >
+            {showPassword ? <HiEyeOff size={18} /> : <HiEye size={18} />}
+          </button>
+        </TextField.Root>
+      </div>
+
       <Select.Root
-        defaultValue="investor"
-        onValueChange={(v) => selectUser(v)}
+        defaultValue="INVESTOR"
+        onValueChange={(value) => setUserType(value)}
         value={userType}
       >
-        <Select.Trigger />
+        <Select.Trigger className="flex items-center p-2 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md">
+          {userType}
+        </Select.Trigger>
         <Select.Content>
           <Select.Item value="INVESTOR">Investor</Select.Item>
           <Select.Item value="ENTREPRENEUR">Entrepreneur</Select.Item>
           <Select.Item value="INNOVATOR">Innovator</Select.Item>
         </Select.Content>
       </Select.Root>
-      {userType == "ENTREPRENEUR" && (
-        <>
-          <TextField.Root
-            placeholder="Company Name"
-            type="text"
-            value={cmpName}
-            onChange={(v) => setCmpName(v.target.value)}
-          >
-            <TextField.Slot>
-              <GoOrganization size={18} />
-            </TextField.Slot>
-          </TextField.Root>
-          <Select.Root onValueChange={(v) => setCmpType(v)} value={cmpType}>
-            <Select.Trigger placeholder="Type of company" />
-            <Select.Content>
-              <Select.Item value="SOFTWARE">Software</Select.Item>
-              <Select.Item value="HARDWARE">Hardware</Select.Item>
-            </Select.Content>
-          </Select.Root>
-        </>
-      )}
-      <Button variant="soft" onClick={() => handleSubmit()}>
-        Signup <HiLogin size={18} />
+
+      <Button
+        variant="solid"
+        onClick={handleSubmit}
+        className="mt-4 w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300"
+      >
+        Signup <HiLogin size={18} className="ml-2" />
       </Button>
     </Flex>
   );

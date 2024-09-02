@@ -6,23 +6,23 @@ import { GoOrganization } from "react-icons/go";
 import { IoKeyOutline } from "react-icons/io5";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { HiEye, HiEyeOff } from "react-icons/hi";
+import axios from "axios";
 
 const UserFieldsUpdate = ({
+  email,
   fullname,
   pass,
-  org,
 }: {
+  email: string;
   fullname: string;
   pass: string;
-  org: string;
 }) => {
   const [name, setName] = useState(fullname);
   const [passw, setPassw] = useState(pass);
-  const [orga, setOrga] = useState(org);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = () => {
-    // Handle the submit logic
+  const handleSubmit = async () => {
+    await axios.put("/api/user", { email, name, pass: passw });
   };
 
   return (
@@ -64,20 +64,6 @@ const UserFieldsUpdate = ({
           </button>
         </TextField.Root>
       </div>
-
-      <TextField.Root
-        value={orga}
-        onChange={(e) => setOrga(e.target.value)}
-        className="flex items-center p-2 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md"
-        placeholder="Organization"
-      >
-        <TextField.Slot>
-          <GoOrganization
-            size="20"
-            className="text-gray-500 dark:text-gray-300"
-          />
-        </TextField.Slot>
-      </TextField.Root>
 
       <Button
         variant="solid"

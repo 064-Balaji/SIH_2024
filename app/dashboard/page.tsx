@@ -18,13 +18,9 @@ const Dashboard = async () => {
     },
   });
 
-  const company = await prisma.company.findUnique({
-    where: { userId: user?.id },
-  });
-
   const startup = await prisma.startup.findMany({
     where: {
-      companyId: company?.id!,
+      userId: user?.id,
     },
   });
 
@@ -39,8 +35,8 @@ const Dashboard = async () => {
         >
           <ImageComp user={user} />
           <UserFieldsUpdate
+            email={user.email!}
             fullname={user?.fullName}
-            org={company?.name!}
             pass={user.password}
           />
         </Flex>
@@ -52,7 +48,7 @@ const Dashboard = async () => {
           gap="6"
         >
           <ListStartups startup={startup} />
-          <AddStartup cmpid={company?.id!} />
+          <AddStartup id={user?.id!} />
         </Flex>
       </Flex>
     );

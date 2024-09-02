@@ -12,7 +12,7 @@ const Signin = async () => {
   if (session) redirect("/");
 
   return (
-    <div className="flex flex-col gap-4 py-10 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div className="flex flex-col gap-4 py-6 bg-gray-50 dark:bg-gray-900">
       <Heading
         align="center"
         size="8"
@@ -30,8 +30,8 @@ const Signin = async () => {
         Unifying Gujarat&apos;s innovation management.
       </Heading>
 
-      <div className="mx-5 lg:mx-80 min-h-[40rem] md:min-h-[34rem] flex flex-col justify-center mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-        <Callout.Root className="mb-6 border-l-4 border-blue-500 bg-blue-50 dark:bg-gray-700 p-4">
+      <div className="mx-5 lg:mx-80 min-h-[33rem] md:h-full flex flex-col justify-center bg-white dark:bg-gray-800 px-6 rounded-lg shadow-lg">
+        <Callout.Root className="mb-6 border-l-4 border-blue-500 bg-blue-50 dark:bg-gray-700">
           <Callout.Icon className="text-blue-500">
             <BiInfoCircle size={24} />
           </Callout.Icon>
@@ -59,14 +59,13 @@ const Signin = async () => {
               Signup
             </Tabs.Trigger>
           </Tabs.List>
-          <Tabs.Content value="signin" className="mt-4">
+          <Tabs.Content value="signin">
             <SigninComp />
           </Tabs.Content>
-          <Tabs.Content value="signup" className="mt-4">
+          <Tabs.Content value="signup">
             <SignupComp />
           </Tabs.Content>
         </Tabs.Root>
-        <Separator orientation="horizontal" size="4" className="my-6" />
       </div>
     </div>
   );

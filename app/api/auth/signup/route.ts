@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, mail, pass, userType, cmpName, cmpType } = await req.json();
+    const { name, mail, pass, userType } = await req.json();
 
     // Validate required fields
     if (!name || !mail || !pass || !userType) {
@@ -19,17 +19,6 @@ export async function POST(req: NextRequest) {
         userType,
       },
     });
-
-    // Create company if provided
-    if (cmpName && cmpType) {
-      await prisma.company.create({
-        data: {
-          name: cmpName,
-          type: cmpType,
-          userId: user.id,
-        },
-      });
-    }
 
     return NextResponse.json("User Created", { status: 201 });
   } catch (error) {

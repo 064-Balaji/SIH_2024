@@ -4,13 +4,13 @@ import { Button, Flex, Popover, TextArea, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import React, { useState } from "react";
 
-const AddStartup = ({ cmpid }: { cmpid: string }) => {
+const AddStartup = ({ id }: { id: string }) => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
 
   const handleSubmit = async () => {
     await axios
-      .post("/api/user/startup", { cmpid, name, desc })
+      .post("/api/user/startup", { id, name, desc })
       .catch(() => console.log("Startup wasn't created"))
       .then(() => console.log("Startup created Successfully"));
   };
