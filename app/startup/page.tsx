@@ -1,7 +1,7 @@
+import prisma from "@/prisma/client";
 import { Flex } from "@radix-ui/themes";
 import InfoBar from "./InfoBar";
-import prisma from "@/prisma/client";
-import { getServerSession } from "next-auth";
+import Performance from "./Performance";
 
 const page = async ({
   searchParams,
@@ -11,10 +11,13 @@ const page = async ({
   const startup = await prisma.startup.findUnique({
     where: { id: String(searchParams?.id) },
   });
-  const session = await getServerSession();
+  const perform = await prisma.performance.findMany({
+    where: { startupId: startup?.id },
+  });
   return (
-    <Flex justify={"between"} className="m-4">
+    <Flex justify={"between"} className="m-4" gap="6">
       <InfoBar startup={startup} />
+      <Performance perform={perform} startupId={startup?.id!} />
     </Flex>
   );
 };

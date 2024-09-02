@@ -2,9 +2,8 @@
 
 import { Button, Flex, Select, TextField } from "@radix-ui/themes";
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaRegUser } from "react-icons/fa";
-import { GoOrganization } from "react-icons/go";
 import { HiEye, HiEyeOff, HiLogin } from "react-icons/hi";
 import { IoKeyOutline } from "react-icons/io5";
 import { MdOutlineAlternateEmail } from "react-icons/md";
@@ -13,7 +12,7 @@ const SignupComp = () => {
   const [name, setName] = useState("");
   const [mail, setMail] = useState("");
   const [pass, setPass] = useState("");
-  const [userType, setUserType] = useState("INVESTOR");
+  const [userType, setUserType] = useState("ENTREPRENEUR");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async () => {
@@ -96,9 +95,13 @@ const SignupComp = () => {
           {userType}
         </Select.Trigger>
         <Select.Content>
-          <Select.Item value="INVESTOR">Investor</Select.Item>
+          <Select.Item value="INVESTOR" disabled>
+            Investor
+          </Select.Item>
           <Select.Item value="ENTREPRENEUR">Entrepreneur</Select.Item>
-          <Select.Item value="INNOVATOR">Innovator</Select.Item>
+          <Select.Item value="INNOVATOR" disabled>
+            Innovator
+          </Select.Item>
         </Select.Content>
       </Select.Root>
 
