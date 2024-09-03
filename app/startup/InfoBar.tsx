@@ -10,10 +10,11 @@ import {
   Select,
 } from "@radix-ui/themes";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import ImageComp from "./ImageComp";
 import { useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const softwareTypes = [
   { value: "APPLICATION", label: "Application" },
@@ -34,6 +35,7 @@ const InfoBar = ({ startup }: { startup: any }) => {
   const session = useSession();
   if (session.status === "unauthenticated") redirect("/signin");
   const id = startup.id;
+  const router = useRouter();
 
   const [name, setName] = useState(startup.name);
   const [description, setDescription] = useState(startup.description);
@@ -53,7 +55,11 @@ const InfoBar = ({ startup }: { startup: any }) => {
         vision,
         mission,
       })
-      .catch((e) => console.log(e));
+      .catch(() => toast.error("Error while Updating content"))
+      .then(() => {
+        toast.success("Information Updated");
+        router.refresh();
+      });
   };
 
   return (

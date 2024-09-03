@@ -7,6 +7,8 @@ import { IoKeyOutline } from "react-icons/io5";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const UserFieldsUpdate = ({
   email,
@@ -17,12 +19,19 @@ const UserFieldsUpdate = ({
   fullname: string;
   pass: string;
 }) => {
+  const router = useRouter();
   const [name, setName] = useState(fullname);
   const [passw, setPassw] = useState(pass);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async () => {
-    await axios.put("/api/user", { email, name, pass: passw });
+    await axios
+      .put("/api/user", { email, name, pass: passw })
+      .then(() => {
+        toast.success("Information Updated");
+        router.refresh();
+      })
+      .catch(() => toast.error("Error while updating the data"));
   };
 
   return (

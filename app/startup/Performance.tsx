@@ -9,7 +9,9 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const Performance = ({
   perform,
@@ -22,6 +24,7 @@ const Performance = ({
   const [turnOver, setTurnOver] = useState("");
   const [profit, setProfit] = useState("");
   const [year, setYear] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async () => {
     axios
@@ -31,7 +34,11 @@ const Performance = ({
         profit,
         year,
       })
-      .catch((e) => console.log(e));
+      .catch((e) => toast.error("Error in creating the performance log"))
+      .then(() => {
+        toast.success("Performance logged successfully");
+        router.refresh();
+      });
   };
 
   return (

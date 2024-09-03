@@ -2,17 +2,23 @@
 
 import { Button, Flex, Popover, TextArea, TextField } from "@radix-ui/themes";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const AddStartup = ({ id }: { id: string }) => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async () => {
     await axios
       .post("/api/user/startup", { id, name, desc })
-      .catch(() => console.log("Startup wasn't created"))
-      .then(() => console.log("Startup created Successfully"));
+      .catch(() => toast.error("Unable to create Startup"))
+      .then(() => {
+        toast.success("Startup created");
+        router.refresh();
+      });
   };
 
   return (
