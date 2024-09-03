@@ -2,6 +2,7 @@ import { Flex } from "@radix-ui/themes";
 import React from "react";
 import InfoBar from "./InfoBar";
 import { getServerSession } from "next-auth";
+import prisma from "@/prisma/client";
 
 const Innovation = async ({
   searchParams,
