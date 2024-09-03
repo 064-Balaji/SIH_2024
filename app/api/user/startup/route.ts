@@ -1,23 +1,39 @@
 import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/prisma/client";
 
-export async function POST(req: NextRequest, res: NextResponse) {
-  const body = await req.json();
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
 
-  await prisma.startup
-    .create({
+    // Validate the request body
+    if (!body.name || !body.desc || !body.id) {
+      return NextResponse.json(
+        { message: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    // Create the startup record
+    const startup = await prisma.startup.create({
       data: {
         name: body.name,
         description: body.desc,
         userId: body.id,
       },
-    })
-    .catch(() => {
-      return NextResponse.json("Error while creating the record", {
-        status: 403,
-      });
     });
 
-  return NextResponse.json("Startup Created Successfully", { status: 201 });
+    return NextResponse.json(
+      { message: "Startup Created Successfully", startup },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Error creating startup:", error);
+
+    return NextResponse.json(
+      { message: "Error while creating the record" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function PUT(req: NextRequest) {
