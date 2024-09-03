@@ -8,14 +8,15 @@ generator client {
 }
 
 model User {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  fullName String
-  email    String    @unique
-  password String
-  userType UserType
-  startups Startup[] // One-to-many relationship with Startup
-  session  Session?
-  image    String?
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  fullName    String
+  email       String       @unique
+  password    String
+  userType    UserType
+  startups    Startup[] // One-to-many relationship with Startup
+  innovations Innovation[] // One-to-many relationship with Innovation
+  session     Session?
+  image       String?
 }
 
 model Startup {
@@ -69,4 +70,23 @@ model Session {
   sessionToken String   @unique
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id])
+}
+
+model Innovation {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  description  String
+  images       Image[] // List of images related to the innovation
+  detailedDesc String? // Detailed description of the innovation
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  innovatorId  String   @db.ObjectId
+  innovator    User     @relation(fields: [innovatorId], references: [id])
+}
+
+model Image {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  url          String // URL of the image
+  innovationId String     @db.ObjectId
+  innovation   Innovation @relation(fields: [innovationId], references: [id])
 }

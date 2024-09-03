@@ -3,6 +3,7 @@
 import { Button, Flex, Select, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { FaRegUser } from "react-icons/fa";
 import { HiEye, HiEyeOff, HiLogin } from "react-icons/hi";
 import { IoKeyOutline } from "react-icons/io5";
@@ -17,12 +18,15 @@ const SignupComp = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.post("api/auth/signup", {
-        name,
-        mail,
-        pass,
-        userType,
-      });
+      await axios
+        .post("api/auth/signup", {
+          name,
+          mail,
+          pass,
+          userType,
+        })
+        .then(() => toast.success("User Created"))
+        .catch(() => toast.error("Error while creating the user"));
       console.log("Success");
     } catch (error) {
       console.error("Error:", error);
@@ -99,9 +103,7 @@ const SignupComp = () => {
             Investor
           </Select.Item>
           <Select.Item value="ENTREPRENEUR">Entrepreneur</Select.Item>
-          <Select.Item value="INNOVATOR" disabled>
-            Innovator
-          </Select.Item>
+          <Select.Item value="INNOVATOR">Innovator</Select.Item>
         </Select.Content>
       </Select.Root>
 

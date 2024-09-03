@@ -5,6 +5,7 @@ import ThemeSwitch from "./ThemeSwitch";
 import React from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const session = useSession();
@@ -27,7 +28,14 @@ const Header = () => {
       <Flex align="center" gap="4">
         <ThemeSwitch />
         {session.data ? (
-          <Button onClick={() => signOut()} variant="soft" color="red">
+          <Button
+            onClick={() => {
+              toast.success("Signed out");
+              signOut();
+            }}
+            variant="soft"
+            color="red"
+          >
             Sign Out
           </Button>
         ) : (

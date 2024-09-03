@@ -3,6 +3,7 @@
 import { Button, Flex, TextField } from "@radix-ui/themes";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { GoSignIn } from "react-icons/go";
 import { IoKeyOutline } from "react-icons/io5";
 import { MdOutlineAlternateEmail } from "react-icons/md";
@@ -15,13 +16,9 @@ const SigninComp = () => {
     const result = await signIn("credentials", {
       email: mail,
       password: pass,
-    });
-
-    if (result?.error) {
-      console.error("Sign-in failed:", result.error);
-    } else {
-      console.log("Signed in successfully!");
-    }
+    })
+      .then(() => toast.success("User Logged In"))
+      .catch(() => toast.error("Error while logging in"));
   };
 
   return (

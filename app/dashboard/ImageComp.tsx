@@ -3,10 +3,13 @@
 import { Flex } from "@radix-ui/themes";
 import axios from "axios";
 import { CldImage, CldUploadButton } from "next-cloudinary";
+import { useRouter } from "next/navigation";
 import React from "react";
+import toast from "react-hot-toast";
 
 const ImageComp = ({ user }: { user: any }) => {
   const email = user.email;
+  const router = useRouter();
   return (
     <Flex justify="center">
       <div className="relative flex justify-center items-center">
@@ -25,6 +28,10 @@ const ImageComp = ({ user }: { user: any }) => {
             onSuccess={async (res) => {
               const url = res.info;
               await axios.put("/api/user", { email, url });
+            }}
+            onClose={() => {
+              toast.success("Image updated");
+              router.refresh();
             }}
             className="bg-white text-black py-2 px-4 rounded-lg shadow-lg"
           >

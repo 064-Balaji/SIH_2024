@@ -5,6 +5,7 @@ import ThemeProvider from "./_components/ThemeProvider";
 import NavBar from "./_components/NavBar";
 import "./globals.css";
 import Session from "./api/auth/[...nextauth]/Session";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,6 +30,7 @@ export default function RootLayout({
           <ThemeProvider>
             <NavBar />
             {children}
+            <Toaster position="top-center" />
           </ThemeProvider>
         </Session>
       </body>
