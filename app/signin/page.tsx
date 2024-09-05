@@ -40,7 +40,7 @@ const Signin = async () => {
           </Callout.Text>
         </Callout.Root>
 
-        <Tabs.Root defaultValue="signin">
+        <Tabs.Root defaultValue="signup">
           <Tabs.List
             justify="center"
             highContrast

@@ -31,6 +31,21 @@ model Startup {
   userId       String        @db.ObjectId
   user         User          @relation(fields: [userId], references: [id]) // Many-to-one relationship with User
   performances Performance[] // One-to-many relationship with Performance
+  gstin        String?       @unique
+  gstInfo      GSTInfo?
+}
+
+model GSTInfo {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  gstin        String  @unique // GST Identification Number (nullable)
+  retPeriod    Int?
+  checksum     String?
+  summaryType  String?
+  totalRecords Int?
+  totalTax     Float?
+  actualTax    Float?
+  totalValue   Float?
+  startup      Startup @relation(fields: [gstin], references: [gstin])
 }
 
 model Performance {

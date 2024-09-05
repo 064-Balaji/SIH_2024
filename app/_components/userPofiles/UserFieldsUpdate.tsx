@@ -1,14 +1,13 @@
 "use client";
 
 import { Button, TextField } from "@radix-ui/themes";
-import React, { useState } from "react";
-import { GoOrganization } from "react-icons/go";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 import { IoKeyOutline } from "react-icons/io5";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
-import { HiEye, HiEyeOff } from "react-icons/hi";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 const UserFieldsUpdate = ({
   email,
