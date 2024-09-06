@@ -181,13 +181,15 @@ const InfoBar = ({ startup }: { startup: any }) => {
                 />
               </Flex>
               <Flex justify="center" gap="3">
-                <Button
-                  variant="solid"
-                  onClick={handleSave}
-                  className="bg-green-500 text-white dark:bg-green-700 hover:bg-green-600 dark:hover:bg-green-800"
-                >
-                  Save Changes
-                </Button>
+                <Dialog.Close>
+                  <Button
+                    variant="solid"
+                    onClick={handleSave}
+                    className="bg-green-500 text-white dark:bg-green-700 hover:bg-green-600 dark:hover:bg-green-800"
+                  >
+                    Save Changes
+                  </Button>
+                </Dialog.Close>
                 <Dialog.Close>
                   <Button
                     color="red"

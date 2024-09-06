@@ -1,128 +1,75 @@
 "use client";
 
+import React from "react";
+import { Flex, Heading } from "@radix-ui/themes";
 import {
-  Button,
-  Dialog,
-  Flex,
-  Heading,
-  Text,
-  TextField,
-} from "@radix-ui/themes";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import toast from "react-hot-toast";
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
-const Performance = ({
-  perform,
-  startupId,
-}: {
-  perform: any;
-  startupId: string;
-}) => {
-  // State variables for the form fields
-  const [turnOver, setTurnOver] = useState("");
-  const [profit, setProfit] = useState("");
-  const [year, setYear] = useState("");
-  const router = useRouter();
-
-  const handleSubmit = async () => {
-    axios
-      .post("/api/user/startup/performance", {
-        startupId,
-        turnOver,
-        profit,
-        year,
-      })
-      .catch((e) => toast.error("Error in creating the performance log"))
-      .then(() => {
-        toast.success("Performance logged successfully");
-        router.refresh();
-      });
-  };
+const Performance = ({ invoices }: { invoices: any[] }) => {
+  // Transform invoices data into the format required by Recharts
+  const chartData = invoices.map((invoice: any) => ({
+    year: formatDate(new Date(invoice.retPeriod)), // Convert date to string
+    turnover: invoice.totalValue,
+    profit: invoice.profit || 0,
+  }));
 
   return (
-    <Flex className="w-full" direction="column" gap="6">
-      <Flex direction={"column"} gap="4">
-        {perform.map((p: any) => (
-          <Flex
-            key={p.id}
-            direction="column"
-            className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md"
-          >
-            <Heading size="3" className="text-gray-900 dark:text-gray-100">
-              Year: {p.year}
-            </Heading>
-            <Flex gap="3" className="mt-2">
-              <Text className="text-gray-700 dark:text-gray-300">
-                TurnOver: {p.turnover}
-              </Text>
-              <Text className="text-gray-700 dark:text-gray-300">
-                Profit: {p.profit}
-              </Text>
-            </Flex>
-          </Flex>
-        ))}
+    <Flex className="w-full dark:bg-gray-800" direction="column" gap="6">
+      <Heading size="4" className="text-gray-900 dark:text-gray-100 mb-4">
+        Performance Overview
+      </Heading>
+
+      <Flex direction="column" className="mb-6">
+        <ResponsiveContainer width="100%" height={400}>
+          <AreaChart data={chartData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="year" />
+            <YAxis />
+            <Tooltip />
+            <Area
+              type="monotone"
+              dataKey="turnover"
+              stroke="#8884d8"
+              fill="url(#turnoverGradient)"
+              name="TurnOver"
+            />
+            <Area
+              type="monotone"
+              dataKey="profit"
+              stroke="#82ca9d"
+              fill="url(#profitGradient)"
+              name="Profit"
+            />
+            <defs>
+              <linearGradient id="turnoverGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="profitGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+          </AreaChart>
+        </ResponsiveContainer>
       </Flex>
-      <Dialog.Root>
-        <Dialog.Trigger>
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-            Add Performance
-          </Button>
-        </Dialog.Trigger>
-        <Dialog.Content className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-          <Dialog.Title className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            Add new Performance log
-          </Dialog.Title>
-          <Flex direction="column" gap="4" className="mt-4">
-            <Flex align="center" gap="3">
-              <Text className="text-gray-700 dark:text-gray-300">
-                TurnOver:
-              </Text>
-              <TextField.Root
-                value={turnOver}
-                onChange={(e) => setTurnOver(e.target.value)}
-                className="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded"
-              />
-            </Flex>
-            <Flex align="center" gap="3">
-              <Text className="text-gray-700 dark:text-gray-300">Profit:</Text>
-              <TextField.Root
-                value={profit}
-                onChange={(e) => setProfit(e.target.value)}
-                className="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded"
-              />
-            </Flex>
-            <Flex align="center" gap="3">
-              <Text className="text-gray-700 dark:text-gray-300">Year:</Text>
-              <TextField.Root
-                value={year}
-                onChange={(e) => setYear(e.target.value)}
-                className="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded"
-              />
-            </Flex>
-            <Flex justify="end" gap="3">
-              <Button
-                color="green"
-                onClick={handleSubmit}
-                className="bg-green-600 hover:bg-green-700 text-white"
-              >
-                Update Changes
-              </Button>
-              <Dialog.Close>
-                <Button
-                  color="red"
-                  className="bg-red-600 hover:bg-red-700 text-white"
-                >
-                  Cancel Change
-                </Button>
-              </Dialog.Close>
-            </Flex>
-          </Flex>
-        </Dialog.Content>
-      </Dialog.Root>
     </Flex>
   );
+};
+
+const formatDate = (date: Date) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short",
+  };
+  return date.toLocaleDateString(undefined, options);
 };
 
 export default Performance;

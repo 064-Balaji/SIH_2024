@@ -19,6 +19,27 @@ model User {
   image       String?
 }
 
+model GSTInfo {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  gstin     String     @unique // GST Identification Number
+  invoices  Invoice[]  // Reference to multiple GST invoice records
+  startups  Startup[]  // Reference to multiple Startups
+}
+
+model Invoice {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  gstInfoId    String   @db.ObjectId
+  gstInfo      GSTInfo  @relation(fields: [gstInfoId], references: [id])
+  retPeriod    DateTime
+  checksum     String?
+  summaryType  String?
+  totalRecords Int?
+  totalTax     Float?
+  actualTax    Float?
+  totalValue   Float?
+  profit       Float?
+}
+
 model Startup {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   name         String
@@ -30,32 +51,8 @@ model Startup {
   imageURL     String?
   userId       String        @db.ObjectId
   user         User          @relation(fields: [userId], references: [id]) // Many-to-one relationship with User
-  performances Performance[] // One-to-many relationship with Performance
   gstin        String?       @unique
-  gstInfo      GSTInfo?
-}
-
-model GSTInfo {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
-  gstin        String  @unique // GST Identification Number (nullable)
-  retPeriod    Int?
-  checksum     String?
-  summaryType  String?
-  totalRecords Int?
-  totalTax     Float?
-  actualTax    Float?
-  totalValue   Float?
-  startup      Startup @relation(fields: [gstin], references: [gstin])
-}
-
-model Performance {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  startupId String   @db.ObjectId
-  startup   Startup  @relation(fields: [startupId], references: [id])
-  turnover  Float
-  profit    Float
-  year      Int
-  createdAt DateTime @default(now())
+  gstInfo      GSTInfo?      @relation(fields: [gstin], references: [gstin])
 }
 
 enum UserType {
@@ -91,17 +88,9 @@ model Innovation {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   title        String
   description  String
-  images       Image[] // List of images related to the innovation
   detailedDesc String? // Detailed description of the innovation
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   innovatorId  String   @db.ObjectId
   innovator    User     @relation(fields: [innovatorId], references: [id])
-}
-
-model Image {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  url          String // URL of the image
-  innovationId String     @db.ObjectId
-  innovation   Innovation @relation(fields: [innovationId], references: [id])
 }

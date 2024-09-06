@@ -49,14 +49,16 @@ const AddInnovation = ({ userId }: { userId: string }) => {
                   Cancel
                 </Button>
               </Popover.Close>
-              <Button
-                color="green"
-                variant="solid"
-                onClick={handleSubmit}
-                className="bg-green-500 hover:bg-green-600 text-white"
-              >
-                Create
-              </Button>
+              <Popover.Close>
+                <Button
+                  color="green"
+                  variant="solid"
+                  onClick={handleSubmit}
+                  className="bg-green-500 hover:bg-green-600 text-white"
+                >
+                  Create
+                </Button>
+              </Popover.Close>
             </Flex>
           </Flex>
         </Popover.Content>

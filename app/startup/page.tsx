@@ -3,23 +3,39 @@ import { Flex } from "@radix-ui/themes";
 import InfoBar from "./InfoBar";
 import Performance from "./Performance";
 
-const page = async ({
+const Page = async ({
   searchParams,
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) => {
+  const startupId = String(searchParams?.id);
+
+  // Fetch startup to get the gstin and gstInfo
   const startup = await prisma.startup.findUnique({
-    where: { id: String(searchParams?.id) },
+    where: { id: startupId },
+    include: { gstInfo: true },
   });
-  const perform = await prisma.performance.findMany({
-    where: { startupId: startup?.id },
+
+  if (!startup) {
+    return <div>Startup not found</div>;
+  }
+
+  // Ensure gstInfoId exists
+  if (!startup.gstInfo?.id) {
+    return <div>No GST Info ID found</div>;
+  }
+
+  // Fetch invoices using gstInfoId from the startup record
+  const invoices = await prisma.invoice.findMany({
+    where: { gstInfoId: startup.gstInfo?.id },
   });
+
   return (
     <Flex justify={"between"} className="m-4" gap="6">
       <InfoBar startup={startup} />
-      <Performance perform={perform} startupId={startup?.id!} />
+      <Performance invoices={invoices} />
     </Flex>
   );
 };
 
-export default page;
+export default Page;

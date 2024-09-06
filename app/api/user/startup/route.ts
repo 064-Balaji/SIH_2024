@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
 
     // Validate the request body
-    if (!body.name || !body.desc || !body.id) {
+    if (!body.name || !body.desc || !body.id || !body.gstIn) {
       return NextResponse.json(
         { message: "Missing required fields" },
         { status: 400 }
@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
         name: body.name,
         description: body.desc,
         userId: body.id,
+        gstin: body.gstIn,
       },
     });
 

@@ -1,31 +1,24 @@
 "use client";
 
-import { Flex, Heading, Text } from "@radix-ui/themes";
-import { CldImage } from "next-cloudinary";
+import { Flex, Grid, Heading, Text } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
-import React from "react";
 
 const ListInnovation = ({ innovation }: { innovation: any }) => {
   const router = useRouter();
-  console.log(innovation);
+
   return (
-    <Flex
-      direction="column"
-      align="center"
-      gap="6"
-      className="w-full p-6 mx-auto"
-    >
-      {innovation.map((i: any) => (
-        <Flex
-          key={i.id}
-          className="w-full p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg transition-transform transform hover:scale-105 cursor-pointer"
-          onClick={() => router.push(`/innovation?id=${i.id}`)}
-        >
+    <Flex direction="column" align="center" className="w-full p-6 mx-auto">
+      <Grid
+        columns={{ sm: "2", md: "3", xl: "4" }} // Grid layout with responsive column count
+        gap="6"
+        className="w-full"
+      >
+        {innovation.map((i: any) => (
           <Flex
+            key={i.id}
             direction="column"
-            className="w-full"
-            justify={"center"}
-            align={"center"}
+            className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg transition-transform transform hover:scale-105 cursor-pointer"
+            onClick={() => router.push(`/innovation?id=${i.id}`)}
           >
             <Heading
               align="center"
@@ -34,12 +27,12 @@ const ListInnovation = ({ innovation }: { innovation: any }) => {
             >
               Name: {i.title}
             </Heading>
-            <Text className="text-gray-700 dark:text-gray-300 text-center">
+            <Text className="text-gray-700 dark:text-gray-300 text-center mb-4">
               Description: {i.description}
             </Text>
           </Flex>
-        </Flex>
-      ))}
+        ))}
+      </Grid>
     </Flex>
   );
 };

@@ -7,7 +7,6 @@ import ImageComp from "./ImageComp";
 import UserFieldsUpdate from "./UserFieldsUpdate";
 
 const UserProf = ({ user }: { user: any }) => {
-  console.log(user);
   return (
     <>
       <Dialog.Root>

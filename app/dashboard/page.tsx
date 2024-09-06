@@ -27,18 +27,13 @@ const Dashboard = async () => {
       },
     });
     return (
-      <Flex direction="row" gap="6" className="p-6">
-        {/* Profile and User Information */}
-
-        {/* Main Content */}
-        <Flex
-          direction="column"
-          className="w-3/4 p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md"
-          gap="6"
-        >
-          <ListStartups startup={startup} />
-          <AddStartup id={user?.id!} />
-        </Flex>
+      <Flex
+        direction="column"
+        className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md m-4"
+        gap="6"
+      >
+        <ListStartups startup={startup} />
+        <AddStartup id={user?.id!} />
       </Flex>
     );
   } else if (user?.userType == "INNOVATOR") {
@@ -48,7 +43,7 @@ const Dashboard = async () => {
     return (
       <Flex
         direction="column"
-        className="w-3/4 p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md"
+        className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md"
         gap="6"
       >
         <ListInnovation innovation={innovation} />

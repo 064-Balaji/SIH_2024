@@ -1,68 +1,54 @@
 "use client";
 
-import React from "react";
-import { Flex, Heading, Text } from "@radix-ui/themes";
-import { useRouter } from "next/navigation";
+import { Grid, Flex, Heading, Text } from "@radix-ui/themes"; // Import Radix components
 import { CldImage } from "next-cloudinary";
+import { useRouter } from "next/navigation";
 
-const ListStartups = ({ startup }: { startup: any }) => {
+const StartupGrid = ({ startup }: { startup: any }) => {
   const router = useRouter();
 
   return (
-    <Flex
-      direction="column"
-      align="center"
-      gap="6"
-      className="w-full p-6 mx-auto"
-    >
-      {startup.map((s: any) => (
-        <Flex
-          key={s.id}
-          className="w-full p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg transition-transform transform hover:scale-105 cursor-pointer"
-          onClick={() => router.push(`/startup?id=${s.id}`)}
-        >
-          <Flex>
-            <CldImage
-              src={s.imageURL ? s.imageURL : ""}
-              width={150}
-              height={150}
-              radius="200"
-              alt="Image wasn't Available"
-            />
-          </Flex>
-          <Flex className="w-full">
-            <Flex
-              direction="column"
-              className="w-full"
-              justify={"center"}
-              align={"center"}
-            >
-              <Heading
-                align="center"
-                size="4"
-                className="text-gray-900 dark:text-gray-100 mb-4"
-              >
-                Name: {s.name}
-              </Heading>
-              <Text className="text-gray-700 dark:text-gray-300 text-center">
-                Description: {s.description}
-              </Text>
+    <Flex direction="column" align="center" className="w-full mx-auto">
+      <Grid
+        columns={{ initial: "2", md: "3", xl: "4" }} // Defining responsive grid columns
+        gap="6"
+        className="w-full"
+      >
+        {startup.map((s: any) => (
+          <Flex
+            key={s.id}
+            direction="column"
+            className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg transition-transform transform hover:scale-105 cursor-pointer"
+            onClick={() => router.push(`/startup?id=${s.id}`)}
+          >
+            <Flex justify="center" className="mb-4">
+              <CldImage
+                src={s.imageURL ? s.imageURL : ""}
+                width={150}
+                height={150}
+                crop="auto"
+                alt="Image wasn't Available"
+                className="rounded-full"
+              />
             </Flex>
-            <Flex
-              direction="column"
-              className="w-full"
-              justify={"center"}
-              align={"center"}
-              gap="3"
+
+            <Text
+              align="center"
+              size="4"
+              className="text-gray-900 dark:text-gray-100 mb-4"
             >
-              <Text>Type of Software: {s.type}</Text>
-              <Text>Domain: {s.domain}</Text>
-            </Flex>
+              <strong>Name: </strong>
+              {s.name}
+            </Text>
+
+            <Text className="text-gray-700 dark:text-gray-300 text-center mb-4">
+              <strong>Description:</strong> {s.description}
+            </Text>
           </Flex>
-        </Flex>
-      ))}
+        ))}
+      </Grid>
     </Flex>
   );
 };
 
-export default ListStartups;
+export default StartupGrid;
