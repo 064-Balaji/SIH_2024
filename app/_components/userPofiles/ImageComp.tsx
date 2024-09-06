@@ -13,32 +13,37 @@ const ImageComp = ({ user }: { user: any }) => {
   return (
     <Flex justify="center">
       <div className="relative flex justify-center items-center">
-        <CldImage
-          src={user.image ? user.image : ""}
-          width="200"
-          height="200"
-          alt="Image wasn't available"
-          radius="300"
-          crop={{ type: "auto" }}
-          className="rounded-full object-cover shadow-md"
-        />
-        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 transition-opacity duration-300 hover:opacity-100">
-          <CldUploadButton
-            uploadPreset="klhusdyw"
-            onSuccess={async (res) => {
-              const url = res.info;
-              await axios.put("/api/user", { email, url });
-            }}
-            onClose={() => {
-              toast.success("Image updated");
-              router.refresh();
-            }}
-            className="bg-white text-black py-2 px-4 rounded-lg shadow-lg"
-          >
-            Upload Image
-          </CldUploadButton>
-        </div>
-      </div>
+  <CldImage
+    src={user.image ? user.image : ""}
+    width="200"
+    height="200"
+    alt="Image wasn't available"
+    radius="300"
+    crop={{ type: "auto" }}
+    className="rounded-full object-cover shadow-md"
+    style={{ zIndex: 1 }} // Set z-index for image
+  />
+  <div
+    className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 transition-opacity duration-300 hover:opacity-100"
+    style={{ zIndex: 10 }} // Higher z-index for the button container
+  >
+    <CldUploadButton
+      uploadPreset="klhusdyw"
+      onSuccess={async (res) => {
+        const url = res.info;
+        await axios.put("/api/user", { email, url });
+      }}
+      onClose={() => {
+        toast.success("Image updated");
+        router.refresh();
+      }}
+      className="bg-white text-black py-2 px-4 rounded-lg shadow-lg"
+    >
+      Upload Image
+    </CldUploadButton>
+  </div>
+</div>
+
     </Flex>
   );
 };

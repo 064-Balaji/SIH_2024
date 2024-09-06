@@ -21,13 +21,13 @@ const Performance = ({ invoices }: { invoices: any[] }) => {
   }));
 
   return (
-    <Flex className="w-full dark:bg-gray-800" direction="column" gap="6">
+    <Flex className="w-7/12 dark:bg-gray-800" direction="column" gap="6">
       <Heading size="4" className="text-gray-900 dark:text-gray-100 mb-4">
         Performance Overview
       </Heading>
 
       <Flex direction="column" className="mb-6">
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={400} >
           <AreaChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="year" />
