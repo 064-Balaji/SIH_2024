@@ -66,7 +66,7 @@ const InfoBar = ({ startup }: { startup: any }) => {
     <Flex
       direction="column"
       gap="4"
-      className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg transition-transform transform hover:scale-105"
+      className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg transition-transform transform hover:scale-105 w-5/12 max-h-svh overflow-y-scroll hidden-scrollbar"
     >
       <ImageComp id={startup.id} url={startup.imageURL} />
       <Heading align="center" className="mb-2 text-gray-800 dark:text-gray-200">
