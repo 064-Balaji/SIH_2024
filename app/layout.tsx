@@ -27,7 +27,7 @@ export default async function RootLayout({
   const session = await getServerSession();
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={inter.className + "max-h-svh p-0 m-0"}>
         <Session>
           <ThemeProvider>
             <NavBar />

@@ -29,7 +29,7 @@ const Dashboard = async () => {
     return (
       <Flex
         direction="column"
-        className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md m-4"
+        className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md"
         gap="6"
       >
         <ListStartups startup={startup} />

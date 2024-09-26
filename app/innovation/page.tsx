@@ -14,7 +14,7 @@ const Innovation = async ({
     where: { id: String(searchParams?.id) },
   });
   return (
-    <Flex justify={"between"} className="m-4" gap="6">
+    <Flex justify={"between"} className="p-4" gap="6">
       <InfoBar innovation={innovation} userId={session?.user.id!} />
     </Flex>
   );

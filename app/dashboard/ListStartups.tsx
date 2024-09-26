@@ -12,7 +12,7 @@ const StartupGrid = ({ startup }: { startup: any }) => {
       <Grid
         columns={{ initial: "2", md: "3", xl: "4" }} // Defining responsive grid columns
         gap="6"
-        className="w-full h-svh overflow-y-scroll hidden-scrollbar"
+        className="w-full overflow-y-scroll hidden-scrollbar"
       >
         {startup.map((s: any) => (
           <Flex

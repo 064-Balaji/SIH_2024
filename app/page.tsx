@@ -15,10 +15,7 @@ const AboutPage = () => {
   }
 
   return (
-    <Flex
-      direction="column"
-      className="min-h-screen bg-gray-50 dark:bg-gray-900"
-    >
+    <Flex direction="column" className="bg-gray-50 dark:bg-gray-900">
       <Flex
         direction="column"
         className="py-10 text-center bg-blue-100 dark:bg-blue-900"

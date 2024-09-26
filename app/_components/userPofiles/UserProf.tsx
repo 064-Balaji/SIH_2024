@@ -1,21 +1,22 @@
 "use client";
 
-import { Button, Dialog, Flex, IconButton } from "@radix-ui/themes";
+import { Button, Dialog, Flex, IconButton, Popover } from "@radix-ui/themes";
 import { signOut } from "next-auth/react";
 import { CiUser } from "react-icons/ci";
 import ImageComp from "./ImageComp";
 import UserFieldsUpdate from "./UserFieldsUpdate";
+import { GoSignOut } from "react-icons/go";
 
 const UserProf = ({ user }: { user: any }) => {
   return (
     <>
-      <Dialog.Root>
-        <Dialog.Trigger>
+      <Popover.Root>
+        <Popover.Trigger>
           <IconButton>
             <CiUser size={18} />
           </IconButton>
-        </Dialog.Trigger>
-        <Dialog.Content>
+        </Popover.Trigger>
+        <Popover.Content>
           <Flex
             direction="column"
             justify="center"
@@ -32,10 +33,13 @@ const UserProf = ({ user }: { user: any }) => {
                 />
               </>
             )}
-            <Button onClick={() => signOut()}> Signout </Button>
+            <Button onClick={() => signOut()} color="red" variant="outline">
+              Signout
+              <GoSignOut size={18} />
+            </Button>
           </Flex>
-        </Dialog.Content>
-      </Dialog.Root>
+        </Popover.Content>
+      </Popover.Root>
     </>
   );
 };

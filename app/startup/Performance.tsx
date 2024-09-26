@@ -1,15 +1,14 @@
 "use client";
 
-import React from "react";
 import { Flex, Heading } from "@radix-ui/themes";
 import {
-  AreaChart,
   Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
 } from "recharts";
 
 const Performance = ({ invoices }: { invoices: any[] }) => {
@@ -21,14 +20,18 @@ const Performance = ({ invoices }: { invoices: any[] }) => {
   }));
 
   return (
-    <Flex className="w-7/12 dark:bg-gray-800" direction="column" gap="6">
+    <Flex
+      className="w-7/12 dark:bg-gray-800 p-2 rounded-lg"
+      direction="column"
+      gap="6"
+    >
       <Heading size="4" className="text-gray-900 dark:text-gray-100 mb-4">
         Performance Overview
       </Heading>
 
       <Flex direction="column" className="mb-6">
-        <ResponsiveContainer width="100%" height={400} >
-          <AreaChart data={chartData}>
+        <ResponsiveContainer width="100%" height={400}>
+          <AreaChart data={chartData} className="p-2 text-black">
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="year" />
             <YAxis />

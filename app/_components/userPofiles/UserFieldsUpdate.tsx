@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { GrUpdate } from "react-icons/gr";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { IoKeyOutline } from "react-icons/io5";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
@@ -73,12 +74,8 @@ const UserFieldsUpdate = ({
         </TextField.Root>
       </div>
 
-      <Button
-        variant="solid"
-        onClick={handleSubmit}
-        className="mt-4 w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300"
-      >
-        Update
+      <Button color="green" variant="soft" onClick={handleSubmit}>
+        Update <GrUpdate />
       </Button>
     </div>
   );

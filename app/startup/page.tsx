@@ -1,7 +1,10 @@
+"use server";
+
 import prisma from "@/prisma/client";
 import { Flex } from "@radix-ui/themes";
 import InfoBar from "./InfoBar";
 import Performance from "./Performance";
+import EditInfo from "./EditInfo";
 
 const Page = async ({
   searchParams,
@@ -31,8 +34,15 @@ const Page = async ({
   });
 
   return (
-    <Flex justify={"between"} className="m-4" gap="6">
-      <InfoBar startup={startup} />
+    <Flex justify={"between"} className="p-4 max-h-[100%]" gap="6">
+      <Flex
+        direction="column"
+        gap="4"
+        className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg transition-transform transform hover:scale-105 w-5/12 overflow-y-scroll"
+      >
+        <InfoBar startup={startup} />
+        <EditInfo startup={startup} />
+      </Flex>
       <Performance invoices={invoices} />
     </Flex>
   );
