@@ -1,5 +1,5 @@
 import prisma from "@/prisma/client";
-import { Flex } from "@radix-ui/themes";
+import { Card, Flex, Heading } from "@radix-ui/themes";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import ImageComp from "../_components/userPofiles/ImageComp";
@@ -27,14 +27,13 @@ const Dashboard = async () => {
       },
     });
     return (
-      <Flex
-        direction="column"
-        className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md"
-        gap="6"
-      >
-        <ListStartups startup={startup} />
-        <AddStartup id={user?.id!} />
-      </Flex>
+      <Card>
+        <Heading align={"center"}>Your Startup</Heading>
+        <Flex direction="column" className="p-6" gap="6">
+          <ListStartups startup={startup} />
+          <AddStartup id={user?.id!} />
+        </Flex>
+      </Card>
     );
   } else if (user?.userType == "INNOVATOR") {
     const innovation = await prisma.innovation.findMany({

@@ -68,9 +68,7 @@ const EditInfo = ({ startup }: { startup: any }) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <Button variant="soft" color="green">
-          Edit Contents
-        </Button>
+        <Button variant="soft">Edit Contents</Button>
       </Dialog.Trigger>
       <Dialog.Content style={{ maxWidth: "500px", width: "100%" }}>
         <Dialog.Title>Edit Startup Profile</Dialog.Title>

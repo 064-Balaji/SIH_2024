@@ -1,10 +1,11 @@
 "use server";
 
 import prisma from "@/prisma/client";
-import { Flex } from "@radix-ui/themes";
+import { Button, Flex, Tooltip } from "@radix-ui/themes";
 import InfoBar from "./InfoBar";
 import Performance from "./Performance";
 import EditInfo from "./EditInfo";
+import Essentials from "./Essentials";
 
 const Page = async ({
   searchParams,
@@ -34,16 +35,24 @@ const Page = async ({
   });
 
   return (
-    <Flex justify={"between"} className="p-4 max-h-[100%]" gap="6">
+    <Flex className="p-4 w-full" gap="6">
       <Flex
         direction="column"
         gap="4"
-        className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg transition-transform transform hover:scale-105 w-5/12 overflow-y-scroll"
+        className="p-6 shadow-lg rounded-lg w-5/12"
       >
         <InfoBar startup={startup} />
         <EditInfo startup={startup} />
       </Flex>
-      <Performance invoices={invoices} />
+      <Flex direction={"column"} gap={"3"} className="w-7/12">
+        <Performance invoices={invoices} />
+        <Essentials id={startupId} />
+        <Tooltip content="Support by giving funds">
+          <Button color="green" variant="soft">
+            Support
+          </Button>
+        </Tooltip>
+      </Flex>
     </Flex>
   );
 };

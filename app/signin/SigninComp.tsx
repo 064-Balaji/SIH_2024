@@ -13,12 +13,17 @@ const SigninComp = () => {
   const [pass, setPass] = useState("");
 
   const handleSubmit = async () => {
+    if (!mail && !pass) {
+      toast.error("Credentials required");
+      return;
+    }
     const result = await signIn("credentials", {
       email: mail,
       password: pass,
-    })
-      .then(() => toast.success("User Logged In"))
-      .catch(() => toast.error("Error while logging in"));
+    }).then((e) => {
+      if (e?.error) toast.error("Error while login");
+      else toast.success("User Logged In");
+    });
   };
 
   return (

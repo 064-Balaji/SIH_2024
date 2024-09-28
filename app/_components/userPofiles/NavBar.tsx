@@ -16,11 +16,7 @@ const Header = async () => {
   }
 
   return (
-    <Flex
-      justify="between"
-      align="center"
-      className="px-2 py-3 bg-white dark:bg-gray-900 shadow-sm"
-    >
+    <Flex justify="between" align="center" className="px-2 py-3 shadow-md">
       <Logo />
       <Flex align={"center"} gap="3" className="mx-2">
         <ThemeSwitch />

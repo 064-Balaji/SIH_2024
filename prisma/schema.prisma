@@ -20,10 +20,10 @@ model User {
 }
 
 model GSTInfo {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  gstin     String     @unique // GST Identification Number
-  invoices  Invoice[]  // Reference to multiple GST invoice records
-  startups  Startup[]  // Reference to multiple Startups
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  gstin    String    @unique // GST Identification Number
+  invoices Invoice[] // Reference to multiple GST invoice records
+  startups Startup[] // Reference to multiple Startups
 }
 
 model Invoice {
@@ -41,18 +41,20 @@ model Invoice {
 }
 
 model Startup {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  description  String
-  type         SoftwareType?
-  domain       Domain?
-  vision       String?
-  mission      String?
-  imageURL     String?
-  userId       String        @db.ObjectId
-  user         User          @relation(fields: [userId], references: [id]) // Many-to-one relationship with User
-  gstin        String?       @unique
-  gstInfo      GSTInfo?      @relation(fields: [gstin], references: [gstin])
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  mantra      String
+  description String?
+  type        SoftwareType?
+  domain      Domain?
+  vision      String?
+  mission     String?
+  imageURL    String?
+  userId      String        @db.ObjectId
+  user        User          @relation(fields: [userId], references: [id])
+  gstin       String?       @unique
+  overview    Overview?
+  gstInfo     GSTInfo?      @relation(fields: [gstin], references: [gstin])
 }
 
 enum UserType {
@@ -93,4 +95,14 @@ model Innovation {
   updatedAt    DateTime @updatedAt
   innovatorId  String   @db.ObjectId
   innovator    User     @relation(fields: [innovatorId], references: [id])
+}
+
+model Overview {
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  noOfEmployees   Int
+  currentProjects Int
+  prevProjects    Int
+  fundsRaised     Int
+  startupId       String  @unique @db.ObjectId
+  startup         Startup @relation(fields: [startupId], references: [id])
 }
