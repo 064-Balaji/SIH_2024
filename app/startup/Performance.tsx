@@ -13,8 +13,13 @@ import {
 } from "recharts";
 
 const Performance = ({ invoices }: { invoices: any[] }) => {
+  // Sort invoices by date before mapping
+  const sortedInvoices = invoices.sort(
+    (a, b) => new Date(a.retPeriod).getTime() - new Date(b.retPeriod).getTime()
+  );
+
   // Transform invoices data into the format required by Recharts
-  const chartData = invoices.map((invoice: any) => ({
+  const chartData = sortedInvoices.map((invoice: any) => ({
     year: formatDate(new Date(invoice.retPeriod)), // Convert date to string
     turnover: invoice.totalValue,
     profit: invoice.profit || 0,
@@ -37,7 +42,7 @@ const Performance = ({ invoices }: { invoices: any[] }) => {
             dataKey="turnover"
             stroke="#8884d8"
             fill="url(#turnoverGradient)"
-            name="TurnOver"
+            name="Turnover"
           />
           <Area
             type="monotone"
