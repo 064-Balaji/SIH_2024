@@ -6,6 +6,7 @@ import {
 } from "react-icons/pi";
 import EditOverview from "./EditOverview";
 import OverviewCard from "./OverviewCard";
+import prisma from "@/prisma/client";
 
 const Overview = async ({ id, editor }: { id: string; editor: boolean }) => {
   const over = await prisma.overview.findUnique({ where: { startupId: id } });
